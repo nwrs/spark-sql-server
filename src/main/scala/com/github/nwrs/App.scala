@@ -28,8 +28,7 @@ object App {
       .parquet("hdfs://localhost:9000/data/tweets.parquet")
       .createTempView("tweets")
 
-    // JDBC client can now connect and execute SQL queries against tweets e.g. 'select count(*) from tweets'
-
+    // JDBC clients can now connect and execute SQL queries e.g. 'select count(*) from tweets'
 
     Thread.sleep(Long.MaxValue)
 
