@@ -1,8 +1,5 @@
 ## Spark Embedded Hive Server Example
 
-An example of a simple Spark driver application with an embedded Hive JDBC endpoint.
+An example of a simple Spark driver application with an embedded Hive (Thrift) JDBC SQL endpoint.
 
-* Offers more flexibility than using the standard Hive server within Spark. 
-* Preferable when tables/views will be dynamically created/dropped. 
-* Useful when the JDBC Hive SQL connection is required in the same process as custom application code.
 
