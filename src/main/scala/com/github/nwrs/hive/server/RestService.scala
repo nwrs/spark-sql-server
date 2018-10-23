@@ -33,7 +33,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
   val registerTable: Endpoint[Unit] = post("table" :: stringBody) { body:String=>
     try {
       val rqt = read[RegisterTableRqt](body)
-      println(rqt.toString)
+      log.info("POST to '/table' to register table.")
       tableRegistrationActor ! RegisterTable(rqt.table, rqt.file)
       Accepted[Unit]
     } catch {
@@ -49,6 +49,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     */
   val deregisterTable: Endpoint[Unit] = delete("table" :: path[String]) { tableName:String =>
     try {
+      log.info(s"DELETE to '/table/$tableName' to de-register table.")
       tableRegistrationActor ! DeRegisterTable(tableName)
       Accepted[Unit]
     } catch {
@@ -63,6 +64,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     */
   val tables: Endpoint[String] = get("tables") {
     try {
+      log.info(s"GET '/tables' to retrieve all registered tables.")
       val res = tableRegistrationActor ? GetRegisteredTables
       val tables = Await.result(res, Duration(30, TimeUnit.SECONDS)).asInstanceOf[Map[String,String]]
       Ok(write(Tables(tables)))
@@ -79,6 +81,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     */
   val table: Endpoint[String] = get("table" :: path[String]) { tableName:String =>
     try {
+      log.info(s"GET '/table/$tableName' to retrieve table info.")
       val res = tableRegistrationActor ? GetRegisteredTables
       val tables = Await.result(res, Duration(30, TimeUnit.SECONDS)).asInstanceOf[Map[String,String]]
       if (tables.contains(tableName)) {
@@ -97,6 +100,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
   def startAndAwait():Unit = {
     import com.twitter.util.Await
     val api: Service[Request, Response] = (table :+: tables :+: registerTable :+: deregisterTable).toServiceAs[Text.Plain]
+    log.info(s"Creating REST endpoint on port $port")
     Await.ready(Http.server.serve(s":$port", api))
   }
 

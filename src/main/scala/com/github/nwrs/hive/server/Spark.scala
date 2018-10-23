@@ -33,9 +33,11 @@ object Spark {
           }
 
           // create spark session
+          log.info(s"Creating Spark session for application '${conf.appName()}' with Spark master '${conf.master}'")
           ss = Some(builder.master(conf.master()).getOrCreate())
 
-          // create Hive endpoint
+          // create Hive Thrift endpoint
+          log.info(s"Creating embedded Hive Thrift Server on port ${conf.jdbcPort()}.")
           HiveThriftServer2.startWithContext(sqlContext)
         }
       }
