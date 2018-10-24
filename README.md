@@ -13,7 +13,7 @@ Motivation: To allow non Spark based applications fluent in SQL to query Parquet
 ```
 $ git clone https://github.com/nwrs/spark-sql-server.git
 $ cd spark-sql-server
-$ mvn clean package
+$ mvn clean install
 ```
 
 ### Command Line Options
@@ -28,7 +28,7 @@ Usage:
   -j, --jdbcPort  <n>                              Hive JDBC endpoint port, defaults to 10000.
   -m, --master  <spark://host:port>                Spark master, defaults to 'local[*]'.
   -p, --restPort  <n>                              Rest port, defaults to 8181.
-  -k, --sparkOpts  <opt=value,opt=value,...>       Additional Spark options for when running standalone.
+  -k, --sparkOpts  <opt=value,opt=value,...>       Additional Spark\Hive options.
   -t, --tableConfig  </path/to/TableConfig.conf>   Table configuration file.
   -h, --help                                       Show help message
 ```
@@ -56,15 +56,15 @@ users=hdfs://localhost:9000/users/users.parquet
 
 | Verb          | Path            |         Action             | Request Body | Response Body | Success Code |
 | :------------- | :--------------- | :-------------------------- | :--- | :--- | :--- |
-| GET           | /tables         | List all registered tables | None | JSON | 200 |
-| GET           | /table/my_table | Get registration for my_table | None | JSON |  200 |
-| DELETE        | /table/my_table | De-register (drop) my_table| None | None | 202 |
-| POST          | /table          | Register a table | JSON | None | 202 |
+| GET           | /api/v1/tables         | List all registered tables | None | JSON | 200 |
+| GET           | /api/v1/table/{table-name} | Get registration for a table | None | JSON |  200 |
+| DELETE        | /api/v1/table/{table-name} | De-register (drop) a table| None | None | 202 |
+| POST          | /api/v1/table          | Register a table | JSON | None | 202 |
 
 Example JSON to register a table via POST:
 ```
 {
-    "table": "my_table",
+    "table": "my_table_name",
     "file": "hdfs://hadoop-server:9000/data/tweet/tweets.parquet"
 }
 ```

@@ -30,7 +30,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     * POST to /table with a JSON body as per RegisterTableRqt to register a new table
     *
     */
-  val registerTable: Endpoint[Unit] = post("table" :: stringBody) { body:String=>
+  val registerTable: Endpoint[Unit] = post("api" :: "v1" ::"table" :: stringBody) { body:String=>
     try {
       val rqt = read[RegisterTableRqt](body)
       log.info("POST to '/table' to register table.")
@@ -47,7 +47,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     * DELETE /table/{tableName} to de-register (drop) a table
     *
     */
-  val deregisterTable: Endpoint[Unit] = delete("table" :: path[String]) { tableName:String =>
+  val deregisterTable: Endpoint[Unit] = delete("api" :: "v1" ::"table" :: path[String]) { tableName:String =>
     try {
       log.info(s"DELETE to '/table/$tableName' to de-register table.")
       tableRegistrationActor ! DeRegisterTable(tableName)
@@ -62,7 +62,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
   /**
     * GET /tables to retrieve list of all available registered tables and their associated parquet files
     */
-  val tables: Endpoint[String] = get("tables") {
+  val tables: Endpoint[String] = get("api" :: "v1" :: "tables") {
     try {
       log.info(s"GET '/tables' to retrieve all registered tables.")
       val res = tableRegistrationActor ? GetRegisteredTables
@@ -79,7 +79,7 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
   /**
     * GET /table/{tableName} to check status of a table
     */
-  val table: Endpoint[String] = get("table" :: path[String]) { tableName:String =>
+  val table: Endpoint[String] = get("api" :: "v1" :: "table" :: path[String]) { tableName:String =>
     try {
       log.info(s"GET '/table/$tableName' to retrieve table info.")
       val res = tableRegistrationActor ? GetRegisteredTables
