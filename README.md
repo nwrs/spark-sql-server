@@ -57,8 +57,8 @@ users=hdfs://localhost:9000/users/users.parquet
 | Verb          | Path            |         Action             | Request Body | Response Body | Success Code |
 | :------------- | :--------------- | :-------------------------- | :--- | :--- | :--- |
 | GET           | /api/v1/tables         | List all registered tables | None | JSON | 200 |
-| GET           | /api/v1/table/{table-name} | Get registration for a table | None | JSON |  200 |
-| DELETE        | /api/v1/table/{table-name} | De-register (drop) a table| None | None | 202 |
+| GET           | /api/v1/table/{table} | Get registration for a table | None | JSON |  200 |
+| DELETE        | /api/v1/table/{table} | De-register (drop) a table| None | None | 202 |
 | POST          | /api/v1/table          | Register a table | JSON | None | 202 |
 
 Example JSON to register a table via POST:
