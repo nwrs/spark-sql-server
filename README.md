@@ -7,7 +7,7 @@ A Spark driver application with an embedded Hive Thrift server facilitating the 
 * Registers Parquet files as tables to allow SQL querying by non Spark applications over JDBC.
 * Simple HTTP REST interface for table registration, de-registration and listing of registered tables.
 
-Motivation: To allow non Spark based applications fluent in SQL to query Parquet backed tables in Spark with the minimum of fuss.
+Motivation: To allow non Spark based applications fluent in SQL to query Parquet backed tables in Spark over JDBC with the minimum of fuss.
 
 ### Build
 ```
