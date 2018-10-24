@@ -1,11 +1,11 @@
-## Spark Embedded Hive Thrift Server Example
+## Spark SQL Server
 
 A Spark driver application with an embedded Hive Thrift server facilitating the querying of Parquet files as tables via a JDBC SQL endpoint. 
 
-* Runs as a standalone local Spark application, as a driver application or submittable to a Spark cluster.  
+* Runs as a standalone local Spark application, a spark driver application or is submittable to a Spark cluster.  
 * Exposes a JDBC SQL endpoint using an embedded Hive Thrift server.
 * Registers Parquet files as tables to allow SQL querying by non Spark applications over JDBC.
-* Simple REST interface for table registration, de-registration and listing of registered tables.
+* Simple HTTP REST interface for table registration, de-registration and listing of registered tables.
 
 Motivation: To allow non Spark based applications fluent in SQL to query Parquet backed tables in Spark with the minimum of fuss.
 
