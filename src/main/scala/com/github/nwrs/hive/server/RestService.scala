@@ -20,7 +20,7 @@ case class RegisterTableRqt(table:String, file:String)
 case class TableRqt(table:String)
 
 class RestService(port:Int, tableRegistrationActor: ActorRef) {
-  val log = LoggerFactory.getLogger(this.getClass)
+  private[this] val log = LoggerFactory.getLogger(this.getClass)
   implicit val formats = Serialization.formats(NoTypeHints)
   implicit val timeout:Timeout = Timeout(30, TimeUnit.SECONDS)
 

@@ -9,7 +9,7 @@ object Spark {
   private[this] val log = LoggerFactory.getLogger(this.getClass)
 
   @volatile
-  var ss:Option[SparkSession] = None
+  private[this] var ss:Option[SparkSession] = None
 
   def initContextAndHive(conf:Config):SparkSession = {
     if (ss.isEmpty) {
