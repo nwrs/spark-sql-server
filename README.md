@@ -52,7 +52,7 @@ tweets=hdfs://localhost:9000/tweets/tweets.parquet
 users=hdfs://localhost:9000/users/users.parquet 
 
 ```
-## Rest Interface
+## REST Interface
 
 | Verb          | Path            |         Action             | Request Body | Response Body | Success Code |
 | :------------- | :--------------- | :-------------------------- | :--- | :--- | :--- |
