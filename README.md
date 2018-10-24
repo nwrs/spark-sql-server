@@ -33,7 +33,7 @@ Usage:
   -h, --help                                       Show help message
 ```
 
-### Running as Standalone Driver Application
+### Running as Standalone Spark Driver Application
 ```
 $ java -jar spark-sql-server-1.0-SNAPSHOT-packaged.jar \
     --appName ParquetSQLServer \
