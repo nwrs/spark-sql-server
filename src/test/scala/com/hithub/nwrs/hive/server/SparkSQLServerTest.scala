@@ -19,8 +19,8 @@ class SparkSQLServerTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   val restPort = "8182"
 
   val conf = new Config(Array("--sparkOpts", "spark.executor.memory=500m",
-    "--jdbcPort", jdbcPort,
-    "--restPort", restPort))
+                              "--jdbcPort", jdbcPort,
+                              "--restPort", restPort))
 
   val testTableFilePath:String = new File(".").getCanonicalPath+"/src/test/data/test-table.parquet"
   val testTable2FilePath:String = new File(".").getCanonicalPath+"/src/test/data/test-table-2.parquet"
@@ -32,9 +32,7 @@ class SparkSQLServerTest extends FlatSpec with Matchers with BeforeAndAfterAll {
     Future { App.startRestService(conf) }
   }
 
-  override def afterAll(): Unit = {
-    sc.stop()
-  }
+  override def afterAll(): Unit = sc.stop()
 
   behavior of "A Spark SQL Server"
 
@@ -105,6 +103,11 @@ class SparkSQLServerTest extends FlatSpec with Matchers with BeforeAndAfterAll {
     val singleTable = parse(registrationSingleTableRes.getContentString()).extract[Tables]
     singleTable should equal (Tables(Map("test_table" -> testTableFilePath)))
 
+    // check non existent table for 404
+    val missingTableRes = syncGet("api/v1/table/test_table_missing")
+    missingTableRes.statusCode should equal (404)
+    missingTableRes.getContentString() should equal ("Table 'test_table_missing' not found")
+
     // de-register
     val deregisterResponse = syncDelete("api/v1/table/test_table")
     deregisterResponse.statusCode should equal (202)
@@ -119,8 +122,7 @@ class SparkSQLServerTest extends FlatSpec with Matchers with BeforeAndAfterAll {
 
 
   it should "create a valid JDBC endpoint on requested port" in {
-
-    SparkHelper.registerTable("test_table", testTableFilePath)
+   SparkHelper.registerTable("test_table", testTableFilePath)
     val con = DriverManager.getConnection(s"jdbc:hive2://localhost:$jdbcPort/default")
     val statement = con.createStatement()
 
