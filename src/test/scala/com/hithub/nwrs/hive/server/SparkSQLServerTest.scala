@@ -78,7 +78,7 @@ class SparkSQLServerTest extends FlatSpec with Matchers with BeforeAndAfterAll {
       Await.result(client(RequestBuilder.create().url(s"http://localhost:$restPort/$path").buildPost(Buf.Utf8(write[T](bodyJsonCaseClass)))))
     }
 
-    def syncDelete[T](path:String):Response = {
+    def syncDelete(path:String):Response = {
       Await.result(client(RequestBuilder.create().url(s"http://localhost:$restPort/$path").buildDelete()))
     }
 
