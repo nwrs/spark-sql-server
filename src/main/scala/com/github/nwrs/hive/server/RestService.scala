@@ -2,7 +2,7 @@ package com.github.nwrs.hive.server
 
 import java.util.concurrent.TimeUnit
 import com.twitter.finagle.http.{Request, Response}
-import com.twitter.finagle.{Http, Service}
+import com.twitter.finagle.{Http, ListeningServer, Service}
 import io.finch.Ok
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -21,6 +21,7 @@ case class TableRqt(table:String)
 
 class RestService(port:Int, tableRegistrationActor: ActorRef) {
   private[this] val log = LoggerFactory.getLogger(this.getClass)
+  private[this] var server:Option[ListeningServer] = None
   implicit val formats = Serialization.formats(NoTypeHints)
   implicit val timeout:Timeout = Timeout(30, TimeUnit.SECONDS)
 
@@ -97,11 +98,18 @@ class RestService(port:Int, tableRegistrationActor: ActorRef) {
     }
   }
 
+
   def startAndAwait():Unit = {
     import com.twitter.util.Await
     val api: Service[Request, Response] = (table :+: tables :+: registerTable :+: deregisterTable).toServiceAs[Text.Plain]
     log.info(s"Creating REST endpoint on port $port")
-    Await.ready(Http.server.serve(s":$port", api))
+    server = Some(Http.server.serve(s":$port", api))
+    Await.ready(server.get)
   }
+
+  def shutdown():Unit = {
+    if (server.isDefined) server.get.close()
+  }
+
 
 }

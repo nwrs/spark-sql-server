@@ -3,7 +3,7 @@ package com.github.nwrs.hive.server
 import org.rogach.scallop.ScallopConf
 import scala.io.Source
 
-class Config(args:Array[String]) extends ScallopConf(args) {
+class Config(args:Array[String]=Array()) extends ScallopConf(args) {
     banner("""|
               |Custom Spark Hive SQL Server [github.com/nwrs/spark-sql-server]
               |

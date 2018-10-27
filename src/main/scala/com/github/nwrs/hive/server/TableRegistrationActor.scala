@@ -16,11 +16,11 @@ class TableRegistrationActor extends Actor {
 
   private[this] def register(table:String, file:String) = {
     deregister(table)
-    Spark.registerTable(table, file)
+    SparkHelper.registerTable(table, file)
     registered += (table -> file)
   }
 
-  private[this] def deregister(table:String):Unit = if (registered.remove(table).isDefined) Spark.deregisterTable(table)
+  private[this] def deregister(table:String):Unit = if (registered.remove(table).isDefined) SparkHelper.deregisterTable(table)
 
   override def receive: Receive = {
     case rt:RegisterTable => register(rt.table, rt.file)

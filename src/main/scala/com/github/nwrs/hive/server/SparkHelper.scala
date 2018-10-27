@@ -4,7 +4,7 @@ import org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.slf4j.LoggerFactory
 
-object Spark {
+object SparkHelper {
 
   private[this] val log = LoggerFactory.getLogger(this.getClass)
 
@@ -22,6 +22,7 @@ object Spark {
             .config("spark.executor.memory", "4g")
             .config("spark.sql.hive.thriftServer.singleSession", "true") // required so registered views are visible from JDBC connections
             .config("spark.sql.catalogImplementation", "hive")
+            .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
             .config("hive.server2.thrift.port", conf.jdbcPort())
 
           // additional user provided options
@@ -64,7 +65,7 @@ object Spark {
     log.info(s"Registered table '$table' successfully.")
   }
 
-  def registerTables(tables:Seq[(String,String)]):Unit = tables.foreach(t => registerTable(t._1, t._2))
+  def registerTables(tables:Map[String,String]):Unit = tables.foreach(t => registerTable(t._1, t._2))
 
   def deregisterTable(table:String):Unit = {
     log.info(s"De-registering table '$table'.")
