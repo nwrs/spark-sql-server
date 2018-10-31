@@ -74,7 +74,7 @@ Example JSON to register a table via POST:
 * The default JDBC endpoint connection string is: "jdbc:hive2://localhost:10000/default"
 * Driver class name: org.apache.hive.jdbc.HiveDriver
 * Use at least version 2.1.0 of the Hive driver jar file, available [here](http://www.mvnrepository.com/artifact/org.apache.hive/hive-jdbc)
-* In some circumstances the Hadoop common jar may need to be on the class path, choose the correct version to match your HDFS installation [here](https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common)
+* In some circumstances hadoop-common-xxx.jar may required on the class path, choose the correct version to match your HDFS installation [here](https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common)
 
 See [here](https://cwiki.apache.org/confluence/display/Hive/HiveServer2+Clients#HiveServer2Clients-JDBC) for more information on connecting to Hive via the JDBC driver.
 
